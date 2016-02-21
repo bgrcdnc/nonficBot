@@ -1,8 +1,10 @@
-//Logon {
+//Logon
+//{
 process.stdout.write('\033c');
 //}
 
-//Variables {
+//Variables
+//{
 var nickname = "nonfic",
 	parakasTimeout = null,
 	jsonFolder = "./json/",
@@ -11,7 +13,9 @@ var nickname = "nonfic",
 	"testing": "test"
 	};
 //}
-//Require {
+
+//Require
+//{
 try {
 	var Discord = require("discord.js");
 } catch (e){
@@ -47,10 +51,11 @@ try{
 	Config.debug = false;
 	Config.respondToInvalid = false;
 	Config.pub = false;
-	Config.botMode = false;
 }
 //}
-//Functions {
+
+//Functions
+//{
 function updateJSON(fnjson, fjson) {
     require("fs").writeFile(jsonFolder + fnjson,JSON.stringify(fjson,null,2), null);
 }
@@ -158,7 +163,9 @@ Date.prototype.addMinutes = function(m) {
    return this;
 };
 //}
-//Commands {
+
+//Commands
+//{
 var commands = {
 	"myid": {
 		description: "kişinin kendi id'sini gösterir",
@@ -257,32 +264,6 @@ var commands = {
 		}
 	},
 	"ş": {
-		hidden:"1",
-		process: function(bot,msg,suffix) {
-			if(checkPermission(msg.sender.id, "nonfic")) {
-				if(suffix && suffix.startsWith('<@')) {
-					sendMes(msg, suffix + ", lütfen şikayet için lütfen Black✪Star ile görüşün.");
-				} else {
-					sendMes(msg, "Şikayet için lütfen Black✪Star ile görüşün.");
-				}
-			}
-		}
-	},
-	"bot": {
-		hidden:"1",
-		process: function(bot,msg,suffix) {
-			if(checkPermission(msg.sender.id, "nonfic")) {
-				Config.botMode = !Config.botMode;
-				updateConfig();
-				if(Config.botMode) {
-					sndMes(msg, "Bot modu: aktif");
-				} else {
-					sndMes(msg, "Bot modu: devre dışı");
-				}
-			}
-		}
-	},
-	"botst": {
 		hidden:"1",
 		process: function(bot,msg,suffix) {
 			if(Config.botMode) {
@@ -454,9 +435,10 @@ var commands = {
 	}
 };
 //}
-//Bot Events {
+
+//Bot Events
+//{
 var bot = new Discord.Client();
-bot.login(AuthDetails.email, AuthDetails.password);
 bot.on("ready", function () {
 	console.log("Bot Service Initialized. Serving in " + bot.channels.length + " channels.");
 	//load_plugins();
@@ -470,14 +452,6 @@ bot.on("message", function (msg) {
 	if(msg.content.indexOf("%info") == 0) {
         var name = bot.user.name;
 		sendMes(msg, name + " tarafından yapılmış bir Discord botuyum, " + name + "'in hesabına bağlıyım ve sadece " + name + "'in komutlarına cevap veriyorum.");
-	}
-	if(msg.content.indexOf(bot.user.mention()) > -1 && msg.sender.id != bot.user.id && Config.botMode && !checkPermission(msg.sender.id,"bot")) {
-		var reply = msg.sender + ", bu mesajı görüyorsanız " + nickname + " şu an bilgisayar başında değil. ";
-		if(Config.pub) {
-			reply += "Kullanılabilir komutları görmek için %help (Lütfen komutları kullanırken lütfen başına ünlem (!) işareti koymayınız)";
-		}
-		sendMes(msg, reply);
-		return;
 	}
 	if(checkPermission(msg.sender.id, "nonfic") || checkPermission(msg.sender.id,"bot") || Config.pub) {
 	} else {
@@ -615,4 +589,19 @@ bot.on("message", function (msg) {
     }
 });
 bot.on("presence", function(user,status,gameId) {});
+
+if(isset(AuthDetails.logtoken)) {
+    bot.loginWithToken(AuthDetails.logtoken, function(err,token) {if(err) {console.log(err);}});
+} else {
+    bot.login(AuthDetails.email, AuthDetails.password, function(error,token) {
+        try {
+            if(isset(token)) {
+                AuthDetails["logtoken"] = token;
+                updateAuth();
+            }
+        } catch(e) {
+            
+        }
+    });
+}
 //}

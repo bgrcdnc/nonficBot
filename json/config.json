@@ -1,6 +1,5 @@
 {
   "debug": false,
   "respondToInvalid": false,
-  "pub": false,
-  "botMode": false
+  "pub": false
 }
