@@ -65,6 +65,9 @@ function updateConfig() {
 function updateSongs() {
 	updateJSON("songs.json", songs);
 }
+function updateAuth() {
+	updateJSON("auth.json", AuthDetails);
+}
 function checkPermission(id, permission){
 	try {
 		var allowed = false;
