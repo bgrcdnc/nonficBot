@@ -604,7 +604,7 @@ if(isset(AuthDetails.logtoken)) {
                 updateAuth();
             }
         } catch(e) {
-            
+
         }
     });
 }
