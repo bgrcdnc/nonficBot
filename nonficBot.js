@@ -444,6 +444,7 @@ var commands = {
 var bot = new Discord.Client();
 bot.on("ready", function () {
 	console.log("Bot Service Initialized. Serving in " + bot.channels.length + " channels.");
+	bot.setStatusIdle();
 	//load_plugins();
 });
 bot.on("disconnected", function () {
