@@ -413,7 +413,7 @@ var commands = {
 						var songName = args.join(' ');
 						songs[songName] = songID;
 						updateSongs();
-						deleteMes(msg);
+						sndMes(msg, "\"" + songName + "\" şarkısı eklendi!");
 					} else if(suffix.startsWith("sil")) {
 						var args = suffix.split(' ');
 						if(args.length < 2) {
@@ -423,10 +423,10 @@ var commands = {
 						var songName = args.join(' ');
 						delete songs[songName];
 						updateSongs();
-						deleteMes(msg);
+						sndMes(msg, "\"" + songName + "\" şarkısı silindi!");
 					} else {
 						if(songs.hasOwnProperty(suffix)) {
-							deleteMes(msg);
+							sndMes(msg, "\"" + suffix + "\" şarkısı çalınıyor...");
 							bot.sendMessage(msg.channel, ".çal " + songs[suffix]);
 						}
 					}
