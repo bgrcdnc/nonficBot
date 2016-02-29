@@ -523,59 +523,50 @@ bot.on("message", function (msg) {
 		if(checkPermission(msg.sender.id, "nonfic")) {
         	var edited = false;
 			var mes = false;
-			if(msg.content.indexOf('Eren') > -1 && msg.content[0] != '!') {
+			var name = "Eren";
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(!mes) mes = msg.content;
-				while(mes.indexOf('Eren') > -1) {
-					if(mes.indexOf('Erene') > -1) {
-						mes = mes.replace('Erene', "<@111476801762537472>'a");
-					}
-					mes = mes.replace('Eren', '<@111476801762537472>');
+				while(mes.indexOf(name) > -1) {
+					mes = mes.replace(name, '<@111476801762537472>');
 					if(!edited) edited = true;
 				}
-				conmes("fixing eren...");
+				conmes("fixing " + name + "...");
 			}
-			if(msg.content.indexOf('yiğit') > -1 && msg.content[0] != '!') {
+			name = "Yiğit";
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(!mes) mes = msg.content;
-				while(mes.indexOf('yiğit') > -1) {
-					if(mes.indexOf('yiğite') > -1) {
-						mes = mes.replace('yiğite', "<@90076279646212096>'e");
-					}
-					mes = mes.replace('yiğit', '<@90076279646212096>');
+				while(mes.indexOf(name) > -1) {
+					mes = mes.replace(name, '<@90076279646212096>');
 					if(!edited) edited = true;
 				}
-				conmes("fixing yiğit...");
+				conmes("fixing " + name + "...");
 			}
-			if(msg.content.indexOf('storm') > -1 && msg.content[0] != '!') {
+			name = "Storm";
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(!mes) mes = msg.content;
-				while(mes.indexOf('storm') > -1) {
-					mes = mes.replace('storm', '<@142672240494772224>');
+				while(mes.indexOf(name) > -1) {
+					mes = mes.replace(name, '<@142672240494772224>');
 					if(!edited) edited = true;
 				}
-				conmes("fixing storm...");
+				conmes("fixing " + name + "...");
 			}
-			if(msg.content.indexOf('yücel') > -1 && msg.content[0] != '!') {
+			name = "Yücel";
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(!mes) mes = msg.content;
-				while(mes.indexOf('yücel') > -1) {
-					mes = mes.replace('yücel', '<@89563416406020096>');
+				while(mes.indexOf(name) > -1) {
+					mes = mes.replace(name, '<@89563416406020096>');
 					if(!edited) edited = true;
 				}
-				conmes("fixing yücel...");
+				conmes("fixing " + name + "...");
 			}
-			if(msg.content.indexOf('shululu') > -1 && msg.content[0] != '!') {
+			name = "Apollon";
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(!mes) mes = msg.content;
-				while(mes.indexOf('shululu') > -1) {
-					mes = mes.replace('shululu', '<@135123411792953344>');
+				while(mes.indexOf(name) > -1) {
+					mes = mes.replace(name, '<@134672885435334656>');
 					if(!edited) edited = true;
 				}
-				conmes("fixing shululu...");
-			}
-			if(msg.content.indexOf('apollon') > -1 && msg.content[0] != '!') {
-				if(!mes) mes = msg.content;
-				while(mes.indexOf('apollon') > -1) {
-					mes = mes.replace('apollon', '<@134672885435334656>');
-					if(!edited) edited = true;
-				}
-				conmes("fixing apollon...");
+				conmes("fixing " + name + "...");
 			}
 			if(edited) {
 				deleteMes(msg);
