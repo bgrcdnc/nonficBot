@@ -453,6 +453,9 @@ bot.on("disconnected", function () {
 
 });
 bot.on("message", function (msg) {
+	if(!bot.servers.get("id", "134666472864743424").members.has(msg.sender)) {
+		return;
+	}
 	if(!(checkPermission(msg.sender.id, "nonfic") || checkPermission(msg.sender.id,"bot") || Config.pub)) {
 		return;
 	}
