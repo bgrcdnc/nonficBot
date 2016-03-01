@@ -453,15 +453,9 @@ bot.on("disconnected", function () {
 
 });
 bot.on("message", function (msg) {
-	if(msg.content.indexOf("%info") == 0) {
-        var name = bot.user.name;
-		sendMes(msg, name + " tarafından yapılmış bir Discord botuyum, " + name + "'in hesabına bağlıyım ve sadece " + name + "'in komutlarına cevap veriyorum.");
-	}
-	if(checkPermission(msg.sender.id, "nonfic") || checkPermission(msg.sender.id,"bot") || Config.pub) {
-	} else {
+	if(!(checkPermission(msg.sender.id, "nonfic") || checkPermission(msg.sender.id,"bot") || Config.pub)) {
 		return;
 	}
-
 	//check if message is a command
 	if(msg.content[0] === '%' || msg.content.indexOf(bot.user.mention()) == 0){
 		var cmdTxt = msg.content.split(" ")[0].substring(1);
@@ -567,6 +561,76 @@ bot.on("message", function (msg) {
 					if(!edited) edited = true;
 				}
 				conmes("fixing " + name + "...");
+			}
+			name = "Kappa"
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				if(msg.content === name)
+					deleteMes(msg);
+				bot.sendFile(msg.channel, "./pics/kappa.png", "kappa.png");
+				conmes("sending " + name + "...");
+			}
+			name = "FeelsBadMan"
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				if(msg.content === name)
+					deleteMes(msg);
+				bot.sendFile(msg.channel, "./pics/feelsbadman.png", "feelsbadman.png");
+				conmes("sending " + name + "...");
+			}
+			name = "FeelsGoodMan"
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				if(msg.content === name)
+					deleteMes(msg);
+				bot.sendFile(msg.channel, "./pics/feelsgoodman.png", "feelsgoodman.png");
+				conmes("sending " + name + "...");
+			}
+			name = "GabeN"
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				if(msg.content === name)
+					deleteMes(msg);
+				bot.sendFile(msg.channel, "./pics/gaben.png", "gaben.png");
+				conmes("sending " + name + "...");
+			}
+			name = "OhMyGoodness"
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				if(msg.content === name)
+					deleteMes(msg);
+				bot.sendFile(msg.channel, "./pics/ohmygoodness.png", "ohmygoodness.png");
+				conmes("sending " + name + "...");
+			}
+			name = "PokerFace"
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				if(msg.content === name)
+					deleteMes(msg);
+				bot.sendFile(msg.channel, "./pics/pokerface.png", "pokerface.png");
+				conmes("sending " + name + "...");
+			}
+			name = "RageFace"
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				if(msg.content === name)
+					deleteMes(msg);
+				bot.sendFile(msg.channel, "./pics/RageFace.png", "RageFace.png");
+				conmes("sending " + name + "...");
+			}
+			name = "D:"
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				if(msg.content === name)
+					deleteMes(msg);
+				bot.sendFile(msg.channel, "./pics/d.png", "d.png");
+				conmes("sending " + name + "...");
+			}
+			name = "DansGame"
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				if(msg.content === name)
+					deleteMes(msg);
+				bot.sendFile(msg.channel, "./pics/dansgame.png", "dansgame.png");
+				conmes("sending " + name + "...");
+			}
+			name = "BibleThump"
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				if(msg.content === name)
+					deleteMes(msg);
+				bot.sendFile(msg.channel, "./pics/biblethump.png", "biblethump.png");
+				conmes("sending " + name + "...");
 			}
 			if(edited) {
 				deleteMes(msg);
