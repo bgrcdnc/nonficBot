@@ -565,6 +565,15 @@ bot.on("message", function (msg) {
 				}
 				conmes("fixing " + name + "...");
 			}
+			name = "Genco";
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				if(!mes) mes = msg.content;
+				while(mes.indexOf(name) > -1) {
+					mes = mes.replace(name, '<@92944306171572224>');
+					if(!edited) edited = true;
+				}
+				conmes("fixing " + name + "...");
+			}
 			name = "Kappa"
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(msg.content === name)
