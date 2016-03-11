@@ -398,6 +398,15 @@ var commands = {
 			}
 		}
 	},
+	"warwick": {
+		hidden:"1",
+		process: function(bot,msg,suffix) {
+			if(checkPermission(msg.sender.id, "nonfic")){
+				bot.sendMessage(msg.channel, "!who dabılyuardabılyuiçk");
+				deleteMes(msg);
+			}
+		}
+	},
 	"s": {
 		hidden:"1",
 		process: function(bot,msg,suffix) {
