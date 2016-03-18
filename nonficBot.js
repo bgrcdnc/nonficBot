@@ -5,9 +5,7 @@ process.stdout.write('\033c');
 
 //Variables
 //{
-var nickname = "nonfic",
-	parakasTimeout = null,
-	jsonFolder = "./json/",
+var jsonFolder = "./json/",
 	alias = {
 	"out": "logout",
 	"testing": "test"
@@ -83,15 +81,10 @@ function checkPermission(id, permission){
 function isset(arg) {
 	return (typeof arg == 'undefined' ? false : true);
 }
-function conmes(out, nl) {
-	var messg = " * " + out;
-	if(isset(nl) && nl)
-		messg+="\r\n";
-	console.log(messg);
-}
+
 function sendMes(msg, mes, opt, call) {
 	if(typeof msg === undefined) {
-		conmes("Error in sendMes: msg = " + msg);
+		console.log("Error in sendMes: msg = " + msg);
 		return;
 	}
 	if(typeof mes === undefined) {
@@ -137,25 +130,6 @@ function sndMes(msg, content, time, opt, call) {
 			deleteMes(msg, opt, call);
 		}, time);
 	});
-}
-function slotChat(type, amount, time) {
-	var date = new Date();
-	date.addMinutes(time / 60);
-	date.addHours(2);
-	var user = bot.channels.get("id", "144215812553703425");
-	bot.sendMessage(user, "sıradaki: " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
-	if(type == 0) {
-		bot.sendMessage(user, "!maaş");
-	} else if(type == 1) {
-		bot.sendMessage(user, "!slot " + amount);
-	}
-	parakasTimeout = setTimeout(function() {
-		slotChat(type, amount, time);
-	}, time * 1000);
-}
-function clearParaKas() {
-	clearTimeout(parakasTimeout);
-	parakasTimeout = null;
 }
 Date.prototype.addHours = function(h) {
    this.setTime(this.getTime() + (h*60*60*1000));
@@ -266,17 +240,7 @@ var commands = {
 			sndMes(msg, msg.sender + ", gotcha!");
 		}
 	},
-	"ş": {
-		hidden:"1",
-		process: function(bot,msg,suffix) {
-			if(Config.botMode) {
-				sndMes(msg, "Bot modu: aktif");
-			} else {
-				sndMes(msg, "Bot modu: kısıtlı");
-			}
-		}
-	},
-	"t": {
+	"pub": {
 		hidden:"1",
 		process: function(bot,msg,suffix) {
 			if(checkPermission(msg.sender.id,"nonfic")){
@@ -290,7 +254,7 @@ var commands = {
 			}
 		}
 	},
-	"ts": {
+	"pubstat": {
 		hidden:"1",
 		process: function(bot,msg,suffix) {
 			if(Config.pub) {
@@ -300,56 +264,16 @@ var commands = {
 			}
 		}
 	},
-	"parakas": {
-		hidden:"1",
-		process: function(bot,msg,suffix) {
-			try {
-				if(checkPermission(msg.sender.id, "nonfic")) {
-					if(parakasTimeout) {
-						clearParaKas();
-					}
-					var args = suffix.split(' ');
-					var type = 0;
-					var amount = "maaş";
-					var time = 300;
-					if(suffix) {
-						if(args.length == 3) {
-							type = parseInt(args.shift(), 10);
-							amount = args.shift();
-							time = parseInt(args.join(' '), 10);
-						}
-					}
-					slotChat(type, amount, time);
-					deleteMes(msg);
-				}
-			} catch(e) {
-				conmes("Error at parakas: " + e);
-			}
-		}
-	},
-	"parakasma": {
-		hidden:"1",
-		process: function(bot,msg,suffix) {
-			try {
-				if(checkPermission(msg.sender.id, "nonfic")) {
-					clearParaKas();
-					sndMes(msg, "Başarıyla iptal edildi.");
-				}
-			} catch(e) {
-				conmes("Error at parakasma: " + e);
-			}
-		}
-	},
 	"setgame": {
 		hidden:"1",
 		process: function(bot,msg,suffix) {
 			try {
 				if(checkPermission(msg.sender.id, "nonfic")) {
 					bot.setPlayingGame(suffix);
-					sndMes(msg, name + " \"" + suffix + "\" oynuyor.", 500);
+					sndMes(msg, bot.user.name + " \"" + suffix + "\" oynuyor.", 500);
 				}
 			} catch(e) {
-				conmes("Error at setgame: " + e);
+				console.log("Error at setgame: " + e);
 			}
 		}
 	},
@@ -367,7 +291,6 @@ var commands = {
 					} else {
 						user = bot.users.get("id","134987945827368960");
 					}
-					console.log(user.game);
 					if(user.game != undefined) {
 						sendMes(msg, user.name + " \"" + user.game + "\" oynuyor.");
 					} else {
@@ -375,7 +298,7 @@ var commands = {
 					}
 				}
 			} catch(e) {
-				conmes("Error at getgame: " + e);
+				console.log("Error at getgame: " + e);
 			}
 		}
 	},
@@ -384,7 +307,7 @@ var commands = {
 		process: function(bot,msg,suffix) {
 			if(checkPermission(msg.sender.id, "nonfic")){
 				sndMes(msg, "Güle güle!", 1000, false, function() {
-					console.log("\r\nExiting by the command of " + msg.sender.name);
+					console.log("\r\nShuting down by the command of " + msg.sender.name);
 					process.exit(0);
 				});
 			}
@@ -442,7 +365,7 @@ var commands = {
 					}
 				}
 			} catch(e) {
-				conmes("Error at s: " + e);
+				console.log("Error at s: " + e);
 			}
 		}
 	}
@@ -537,7 +460,7 @@ bot.on("message", function (msg) {
 					mes = mes.replace(name, '<@111476801762537472>');
 					if(!edited) edited = true;
 				}
-				conmes("fixing " + name + "...");
+				console.log("fixing " + name + "...");
 			}
 			name = "Yiğit";
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
@@ -546,7 +469,7 @@ bot.on("message", function (msg) {
 					mes = mes.replace(name, '<@90076279646212096>');
 					if(!edited) edited = true;
 				}
-				conmes("fixing " + name + "...");
+				console.log("fixing " + name + "...");
 			}
 			name = "Storm";
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
@@ -555,7 +478,7 @@ bot.on("message", function (msg) {
 					mes = mes.replace(name, '<@142672240494772224>');
 					if(!edited) edited = true;
 				}
-				conmes("fixing " + name + "...");
+				console.log("fixing " + name + "...");
 			}
 			name = "Yücel";
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
@@ -564,7 +487,7 @@ bot.on("message", function (msg) {
 					mes = mes.replace(name, '<@89563416406020096>');
 					if(!edited) edited = true;
 				}
-				conmes("fixing " + name + "...");
+				console.log("fixing " + name + "...");
 			}
 			name = "Apollon";
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
@@ -573,7 +496,7 @@ bot.on("message", function (msg) {
 					mes = mes.replace(name, '<@134672885435334656>');
 					if(!edited) edited = true;
 				}
-				conmes("fixing " + name + "...");
+				console.log("fixing " + name + "...");
 			}
 			name = "Genco";
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
@@ -582,77 +505,86 @@ bot.on("message", function (msg) {
 					mes = mes.replace(name, '<@92944306171572224>');
 					if(!edited) edited = true;
 				}
-				conmes("fixing " + name + "...");
+				console.log("fixing " + name + "...");
 			}
 			name = "Kappa"
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(msg.content === name)
 					deleteMes(msg);
 				bot.sendFile(msg.channel, "./pics/kappa.png", "kappa.png");
-				conmes("sending " + name + "...");
+				console.log("sending " + name + "...");
 			}
 			name = "FeelsBadMan"
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(msg.content === name)
 					deleteMes(msg);
 				bot.sendFile(msg.channel, "./pics/feelsbadman.png", "feelsbadman.png");
-				conmes("sending " + name + "...");
+				console.log("sending " + name + "...");
 			}
 			name = "FeelsGoodMan"
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(msg.content === name)
 					deleteMes(msg);
 				bot.sendFile(msg.channel, "./pics/feelsgoodman.png", "feelsgoodman.png");
-				conmes("sending " + name + "...");
+				console.log("sending " + name + "...");
 			}
 			name = "GabeN"
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(msg.content === name)
 					deleteMes(msg);
 				bot.sendFile(msg.channel, "./pics/gaben.png", "gaben.png");
-				conmes("sending " + name + "...");
+				console.log("sending " + name + "...");
 			}
 			name = "OhMyGoodness"
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(msg.content === name)
 					deleteMes(msg);
 				bot.sendFile(msg.channel, "./pics/ohmygoodness.png", "ohmygoodness.png");
-				conmes("sending " + name + "...");
+				console.log("sending " + name + "...");
 			}
 			name = "PokerFace"
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(msg.content === name)
 					deleteMes(msg);
 				bot.sendFile(msg.channel, "./pics/pokerface.png", "pokerface.png");
-				conmes("sending " + name + "...");
+				console.log("sending " + name + "...");
 			}
 			name = "RageFace"
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(msg.content === name)
 					deleteMes(msg);
 				bot.sendFile(msg.channel, "./pics/RageFace.png", "RageFace.png");
-				conmes("sending " + name + "...");
+				console.log("sending " + name + "...");
 			}
 			name = "D:"
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(msg.content === name)
 					deleteMes(msg);
 				bot.sendFile(msg.channel, "./pics/d.png", "d.png");
-				conmes("sending " + name + "...");
+				console.log("sending " + name + "...");
 			}
 			name = "DansGame"
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(msg.content === name)
 					deleteMes(msg);
 				bot.sendFile(msg.channel, "./pics/dansgame.png", "dansgame.png");
-				conmes("sending " + name + "...");
+				console.log("sending " + name + "...");
 			}
 			name = "BibleThump"
 			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
 				if(msg.content === name)
 					deleteMes(msg);
 				bot.sendFile(msg.channel, "./pics/biblethump.png", "biblethump.png");
-				conmes("sending " + name + "...");
+				console.log("sending " + name + "...");
+			}
+			name = "lennyface"
+			if(msg.content.indexOf(name) > -1 && msg.content[0] != '!') {
+				var text = msg.content;
+				while(text.indexOf(name) > -1) {
+					text = text.replace("lennyface", " ( ͡° ͜ʖ ͡°)");
+				}
+				bot.updateMessage(msg, text);
+				console.log("sending " + name + "...");
 			}
 			if(edited) {
 				deleteMes(msg);
