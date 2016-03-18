@@ -105,9 +105,9 @@ function sendMes(msg, mes, opt, call) {
 	}
     var name = bot.user.name;
 	if(msg.sender.id == bot.user.id) {
-		bot.updateMessage(msg, "**" + name + "Bot** > " + mes, opt, call);
+		bot.updateMessage(msg, "**" + name + " Bot** > " + mes, opt, call);
 	} else {
-		bot.sendMessage(msg.channel, "**" + name + "Bot** > " + mes, opt, call);
+		bot.sendMessage(msg.channel, "**" + name + " Bot** > " + mes, opt, call);
 	}
 }
 function deleteMes(msg, opt, call) {
@@ -346,7 +346,7 @@ var commands = {
 			try {
 				if(checkPermission(msg.sender.id, "nonfic")) {
 					bot.setPlayingGame(suffix);
-					sndMes(msg, "nonfic \"" + suffix + "\" oynuyor.", 500);
+					sndMes(msg, name + " \"" + suffix + "\" oynuyor.", 500);
 				}
 			} catch(e) {
 				conmes("Error at setgame: " + e);
@@ -367,8 +367,9 @@ var commands = {
 					} else {
 						user = bot.users.get("id","134987945827368960");
 					}
-					if(user.game) {
-						sendMes(msg, user.name + " \"" + user.game.name + "\" oynuyor.");
+					console.log(user.game);
+					if(user.game != undefined) {
+						sendMes(msg, user.name + " \"" + user.game + "\" oynuyor.");
 					} else {
 						sendMes(msg, user.name + " oyun oynamıyor.");
 					}
