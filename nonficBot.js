@@ -96,11 +96,10 @@ function sendMes(msg, mes, opt, call) {
 	if(typeof call === undefined) {
 		call = null;
 	}
-    var name = bot.user.name;
 	if(msg.sender.id == bot.user.id) {
-		bot.updateMessage(msg, "**" + name + " Bot** > " + mes, opt, call);
+		bot.updateMessage(msg, "**Bot** > " + mes, opt, call);
 	} else {
-		bot.sendMessage(msg.channel, "**" + name + " Bot** > " + mes, opt, call);
+		bot.sendMessage(msg.channel, "**Bot** > " + mes, opt, call);
 	}
 }
 function deleteMes(msg, opt, call) {
@@ -231,7 +230,8 @@ var commands = {
 	"ping": {
 		description: "eğer bot açık ise kullanıcıya geri cevap verir",
 		process: function(bot,msg,suffix) {
-			sendMes(msg, "ping - pong!");
+			bot.sendMessage(msg.channel, "**Bot** > ping - pong!", (e, sentMsg) => { bot.updateMessage(sentMsg,"**Bot** > ping - pong! (" + (sentMsg.timestamp - msg.timestamp) + "ms)") });
+			deleteMes(msg);
 		}
 	},
 	"pong!": {
