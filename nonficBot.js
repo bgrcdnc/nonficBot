@@ -292,7 +292,7 @@ var commands = {
 						user = bot.users.get("id","134987945827368960");
 					}
 					if(user.game != undefined) {
-						sendMes(msg, user.name + " \"" + user.game + "\" oynuyor.");
+						sendMes(msg, user.name + " \"" + user.game.name + "\" oynuyor.");
 					} else {
 						sendMes(msg, user.name + " oyun oynamıyor.");
 					}
