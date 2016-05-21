@@ -1,5 +1,5 @@
 {
   "debug": false,
   "respondToInvalid": false,
-  "pub": false
+  "pub": true
 }

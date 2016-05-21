@@ -386,9 +386,6 @@ bot.on("disconnected", function () {
 
 });
 bot.on("message", function (msg) {
-	if(!bot.servers.get("id", "134666472864743424").members.has(msg.sender)) {
-		return;
-	}
 	if(!(checkPermission(msg.sender.id, "nonfic") || checkPermission(msg.sender.id,"bot") || Config.pub)) {
 		return;
 	}
@@ -408,7 +405,7 @@ bot.on("message", function (msg) {
 		var cmd = commands[cmdTxt];
 		if(cmdTxt === "help") {
 			console.log("treating \"" + msg.content + "\" from " + msg.author.name + " as command.");
-			var texttosend = "\n***Kullanılabilir Komutlar: (Lütfen komutları kullanırken başına ünlem (!) işareti koymayınız)***\n";
+			var texttosend = "\n***Kullanılabilir Komutlar: (Lütfen komutları kullanırken başına ünlem (!) işareti yerine yüzde (%) işareti koyunuz)***\n";
 			if(suffix) {
 
 			} else {
@@ -604,17 +601,17 @@ bot.on("message", function (msg) {
 bot.on("presence", function(user,status,gameId) {});
 
 if(isset(AuthDetails.logtoken)) {
-    bot.loginWithToken(AuthDetails.logtoken, function(err,token) {if(err) {console.log(err);}});
+    console.log("Loging in with token\n");
+    bot.loginWithToken(AuthDetails.logtoken, AuthDetails.email, AuthDetails.password);
 } else {
-    bot.login(AuthDetails.email, AuthDetails.password, function(error,token) {
-        try {
-            if(isset(token)) {
-                AuthDetails["logtoken"] = token;
-                updateAuth();
-            }
-        } catch(e) {
-
-        }
-    });
+	console.log("Loging in with email/password\n");
+    bot.login(AuthDetails.email, AuthDetails.password).then(success).catch(err);
+    function success(token) {
+        AuthDetails.logtoken = token;
+        updateAuth();
+    }
+    function err(error) {
+        console.log(error);
+    }
 }
 //}

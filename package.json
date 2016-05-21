@@ -11,8 +11,8 @@
   },
   "license": "GNU",
   "dependencies": {
-    "discord.js": "hydrabolt/discord.js#indev",
-    "underscore": "1.8.x"
+    "discord.js": "^6.1.0",
+    "underscore": "^1.8.x"
   },
   "scripts": {
     "start": "node nonficBot.js"
